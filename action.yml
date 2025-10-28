@@ -30,8 +30,8 @@ inputs:
       description: ' Mark the PR status check as failed when a jira issue is not found'
       required: false
       default: 'false'
-  labels:
-    description: 'label mapping from Jira labels to Github in json format. Github labels should exist'
+  statuses:
+    description: 'status mapping from Jira status to Github in json format. Github labels should exist'
     required: true
       
 runs:

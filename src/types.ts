@@ -70,7 +70,6 @@ export namespace JIRA {
       priority: IssuePriority;
       issuetype: IssueType;
       project: IssueProject;
-      labels: string[];
       [k: string]: unknown;
     };
   }
@@ -79,7 +78,6 @@ export namespace JIRA {
 export interface JIRADetails {
   key: string;
   summary: string;
-  labels: string[];
   url: string;
   type: {
     name: string;
@@ -89,6 +87,9 @@ export interface JIRADetails {
     name: string;
     url: string;
     key: string;
+  };
+  status: {
+    name: string;
   };
 }
 
@@ -101,7 +102,7 @@ export interface IActionInputs {
   JIRA_PROJECT_KEY: string;
   CUSTOM_ISSUE_NUMBER_REGEXP: string;
   FAIL_WHEN_JIRA_ISSUE_NOT_FOUND: boolean;
-  LABELS: Record<string, string>;
+  STATUSES: Record<string, string>;
 }
 
 export interface IGithubData {

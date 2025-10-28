@@ -11,15 +11,15 @@ export class GithubConnector {
   toGithubLabel: (string: string) => string;
 
   constructor() {
-    const { GITHUB_TOKEN, LABELS } = getInputs();
+    const { GITHUB_TOKEN, STATUSES } = getInputs();
     this.client = new GitHub(GITHUB_TOKEN);
     this.octokit = new Octokit({ auth: GITHUB_TOKEN });
 
     this.toGithubLabel = (jiraLabel: string) => {
-      console.info('labels loaded from action workflow setup:', LABELS);
-      if (LABELS[jiraLabel]) {
-        console.info(`Using label mapping for ${jiraLabel} -> ${LABELS[jiraLabel]}, from action config`);
-        return LABELS[jiraLabel];
+      console.info('labels loaded from action workflow setup:', STATUSES);
+      if (STATUSES[jiraLabel]) {
+        console.info(`Using label mapping for ${jiraLabel} -> ${STATUSES[jiraLabel]}, from action config`);
+        return STATUSES[jiraLabel];
       }
 
       console.info(`Label ${jiraLabel} not found in mapping`);
@@ -78,10 +78,11 @@ export class GithubConnector {
   async updatePrDetails(details: JIRADetails) {
     const owner = this.githubData.owner;
     const repo = this.githubData.repository.name;
-    console.log('Updating PR labels');
+    console.log('Updating PR statuses');
     const { number: prNumber = 0 } = this.githubData.pullRequest;
 
-    const labels = details.labels.map(this.toGithubLabel).filter((label) => label);
+    // const labels = details.labels.map(this.toGithubLabel).filter((label) => label);
+    const labels = [this.toGithubLabel(details.status.name)];
 
     if (labels.length === 0) {
       console.info('No labels to add');
@@ -96,7 +97,7 @@ export class GithubConnector {
         labels,
       });
     } catch (error) {
-      console.error(`Failed to add labels. Check that all ${labels.join(', ')} labels exists on github.`);
+      console.error(`Failed to add statuses. Check that all ${labels.join(', ')} statuses exists on github.`);
       throw error;
     }
   }
