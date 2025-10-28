@@ -81,7 +81,6 @@ export class GithubConnector {
     console.log('Updating PR statuses');
     const { number: prNumber = 0 } = this.githubData.pullRequest;
 
-    // const labels = details.labels.map(this.toGithubLabel).filter((label) => label);
     const labels = [this.toGithubLabel(details.status.name)];
 
     if (labels.length === 0) {
