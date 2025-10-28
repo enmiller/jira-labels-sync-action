@@ -58,7 +58,7 @@ export class GithubConnector {
     }
 
     if (!keyFound) {
-      throw new Error('JIRA key not found');
+      throw new Error(' JIRA key not found ');
     }
     console.log(`JIRA key found -> ${keyFound}`);
     return keyFound;
